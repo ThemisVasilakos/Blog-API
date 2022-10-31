@@ -3,6 +3,7 @@ package net.vasilakos.blogapi.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "user",uniqueConstraints = {@UniqueConstraint( name = "username_unique", columnNames = "username")

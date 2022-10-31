@@ -2,6 +2,7 @@ package net.vasilakos.blogapi.controller;
 
 import net.vasilakos.blogapi.dto.ArticleDTO;
 import net.vasilakos.blogapi.service.ArticleService;
+import net.vasilakos.blogapi.service.LikesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,9 @@ public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private LikesService likesService;
 
     @PostMapping("/new-article")
     public ResponseEntity<?> createArticle(@RequestBody ArticleDTO articleDTO){
@@ -42,6 +46,8 @@ public class ArticleController {
         return articleService.searchByTitle(title);
     }
 
-
-
+    @PostMapping("/{articleId}/like")
+    public String likeArticle(@PathVariable Long articleId){
+        return likesService.likeArticle(articleId);
+    }
 }

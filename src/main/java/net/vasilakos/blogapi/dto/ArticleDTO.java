@@ -1,7 +1,10 @@
 package net.vasilakos.blogapi.dto;
 
 import net.vasilakos.blogapi.model.Article;
+import net.vasilakos.blogapi.model.Comment;
 import net.vasilakos.blogapi.model.User;
+
+import java.util.List;
 
 public class ArticleDTO {
     private String title;
@@ -12,7 +15,11 @@ public class ArticleDTO {
 
     private String category;
 
+    private Integer likes;
+
     private User user;
+
+    private List<Comment> comments;
 
     public ArticleDTO() {
     }
@@ -23,6 +30,8 @@ public class ArticleDTO {
         this.description = article.getDescription();
         this.body = article.getBody();
         this.user = article.getUser();
+        this.likes=article.getLikes();
+        this.comments=article.getComments();
     }
 
     public String getTitle() {
@@ -43,6 +52,22 @@ public class ArticleDTO {
 
     public String getBody() {
         return body;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public void setBody(String body) {

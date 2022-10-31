@@ -23,6 +23,9 @@ public class Article {
     @Column
     private String category;
 
+    @Column
+    private Integer likes;
+
     @ManyToOne( cascade = {CascadeType.PERSIST})
     @JoinColumn(
             name="user_id",
@@ -36,6 +39,10 @@ public class Article {
     public void addComment(Comment comment){
         if(comments==null) comments = new ArrayList<>();
         comments.add(comment);
+    }
+
+    public Article() {
+        this.likes=0;
     }
 
     public String getTitle() {
@@ -52,6 +59,14 @@ public class Article {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
     }
 
     public String getBody() {
@@ -76,5 +91,9 @@ public class Article {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
     }
 }
