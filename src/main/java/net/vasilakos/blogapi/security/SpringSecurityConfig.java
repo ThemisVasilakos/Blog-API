@@ -59,7 +59,8 @@ public class SpringSecurityConfig {
                 .authorizeRequests().antMatchers("/blog/admin/users/get-all","/blog/admin/articles/delete/{articleId}")
                 .hasRole("ADMIN")
                 .antMatchers("/blog/articles/new-article","/blog/articles/get-all","/blog/articles/{article_id}/delete","/blog/articles/search-by-category/{category}",
-                        "/blog/articles/search-by-title/{title}","/blog/articles/{articleId}/comment","/blog/articles/{articleId}/comments","/blog/articles/{articleId}/like","/blog/articles/favorites")
+                        "/blog/articles/search-by-title/{title}","/blog/articles/{articleId}/comment","/blog/articles/{articleId}/comments","/blog/articles/{articleId}/like","/blog/articles/favorites",
+                        "blog/articles/edit/{articleId}")
                 .hasAnyRole("USER","ADMIN")
                 .antMatchers("/blog/login","/blog/register").permitAll().anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).

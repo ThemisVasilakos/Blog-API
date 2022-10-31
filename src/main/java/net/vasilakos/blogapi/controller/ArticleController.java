@@ -25,6 +25,11 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.saveArticle(articleDTO));
     }
 
+    @PutMapping("/edit/{articleId}")
+    public ResponseEntity<?> createArticle(@RequestBody ArticleDTO articleDTO,@PathVariable Long articleId){
+        return ResponseEntity.ok(articleService.updateArticle(articleDTO,articleId));
+    }
+
     @DeleteMapping("/{article_id}/delete")
     public ResponseEntity<String> deleteArticle(@PathVariable Long article_id){
         articleService.deleteArticle(article_id);

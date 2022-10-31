@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -45,6 +46,7 @@ public class CommentService {
 
         return commentRepository.save(comment);
     }
+
 
     public ArrayList<CommentDTO> getArticleComments(Long articleId){
         ArrayList<Comment> comments = commentRepository.findCommentByArticleId(articleId);

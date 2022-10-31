@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -37,6 +38,23 @@ public class ArticleService {
         article.setUser(user);
 
         return articleRepository.save(article);
+    }
+
+    @Transactional
+    public ArticleDTO updateArticle(ArticleDTO articleDTO,Long article_id){
+        UserDetails userDetailService = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetailService.getUsername();
+
+        Article article = articleRepository.findArticleByUsernameAndArticleId(username,article_id);
+
+        article.setTitle(articleDTO.getTitle());
+        article.setCategory(articleDTO.getCategory());
+        article.setDescription(articleDTO.getDescription());
+        article.setBody(articleDTO.getBody());
+
+        articleRepository.save(article);
+
+        return articleDTO;
     }
 
     public void deleteArticle(Long article_id){
