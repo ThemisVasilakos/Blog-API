@@ -22,7 +22,7 @@ public class ArticleService {
     @Autowired
     private UserRepository userRepository;
 
-    public Article saveArticle(ArticleDTO articleDTO){
+    public Long saveArticle(ArticleDTO articleDTO){
         Article article = new Article();
 
         article.setTitle(articleDTO.getTitle());
@@ -37,11 +37,11 @@ public class ArticleService {
 
         article.setUser(user);
 
-        return articleRepository.save(article);
+        return articleRepository.save(article).getArticleId();
     }
 
     @Transactional
-    public ArticleDTO updateArticle(ArticleDTO articleDTO,Long article_id){
+    public Long updateArticle(ArticleDTO articleDTO,Long article_id){
         UserDetails userDetailService = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetailService.getUsername();
 
@@ -52,9 +52,7 @@ public class ArticleService {
         article.setDescription(articleDTO.getDescription());
         article.setBody(articleDTO.getBody());
 
-        articleRepository.save(article);
-
-        return articleDTO;
+        return articleRepository.save(article).getArticleId();
     }
 
     public void deleteArticle(Long article_id){
@@ -103,8 +101,24 @@ public class ArticleService {
         return articleDTOList;
     }
 
-    public Optional<Article> findByID(Long articleId){
-        return articleRepository.findById(articleId);
+    public ArticleDTO findByID(Long articleId) throws Exception {
+
+        Optional<Article> article = articleRepository.findById(articleId);
+
+        if(article.isEmpty()){
+            throw new Exception();
+        }
+
+        ArticleDTO articleDTO = new ArticleDTO(article.get());
+
+        return articleDTO;
+    }
+
+    public ArticleDTO searchByCategoryAndTitle(String category,String title){
+        Article article = articleRepository.findArticleByCategoryAndTitle(category,title);
+        ArticleDTO articleDTO = new ArticleDTO(article);
+
+        return articleDTO;
     }
 
 

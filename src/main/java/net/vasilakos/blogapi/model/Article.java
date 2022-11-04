@@ -45,6 +45,10 @@ public class Article {
         this.likes=0;
     }
 
+    public Long getArticleId() {
+        return articleId;
+    }
+
     public String getTitle() {
         return title;
     }

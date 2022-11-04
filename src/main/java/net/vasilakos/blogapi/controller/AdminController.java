@@ -20,12 +20,12 @@ public class AdminController {
     @Autowired
     private CustomUserDetailService userDetailService;
 
-    @GetMapping("users/get-all")
+    @GetMapping("users")
     public ArrayList<UserDTO> getAllUsers(){
         return userDetailService.getAllUsers();
     }
 
-    @DeleteMapping("/articles/delete/{articleId}")
+    @DeleteMapping("/articles/{articleId}")
     public ResponseEntity<String> deleteArticle(@PathVariable Long articleId){
         articleService.deleteArticleAdmin(articleId);
         return new ResponseEntity<String>("Article deleted", HttpStatus.OK);

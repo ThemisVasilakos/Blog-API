@@ -1,6 +1,7 @@
 package net.vasilakos.blogapi.controller;
 
 import net.vasilakos.blogapi.dto.ArticleDTO;
+import net.vasilakos.blogapi.repository.CustomArticleRepository;
 import net.vasilakos.blogapi.service.ArticleService;
 import net.vasilakos.blogapi.service.LikesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/blog/articles")
+@RequestMapping("/blog")
 public class ArticleController {
 
     @Autowired
@@ -20,39 +21,42 @@ public class ArticleController {
     @Autowired
     private LikesService likesService;
 
-    @PostMapping("/new-article")
-    public ResponseEntity<?> createArticle(@RequestBody ArticleDTO articleDTO){
-        return ResponseEntity.ok(articleService.saveArticle(articleDTO));
+    @PostMapping("/articles")
+    public ResponseEntity<Long> createArticle(@RequestBody ArticleDTO articleDTO){
+        return new ResponseEntity<Long>(articleService.saveArticle(articleDTO),HttpStatus.CREATED);
     }
 
-    @PutMapping("/edit/{articleId}")
-    public ResponseEntity<?> createArticle(@RequestBody ArticleDTO articleDTO,@PathVariable Long articleId){
-        return ResponseEntity.ok(articleService.updateArticle(articleDTO,articleId));
+    @PutMapping("/articles/{articleId}")
+    public ResponseEntity<Long> editArticle(@RequestBody ArticleDTO articleDTO,@PathVariable Long articleId){
+        return new ResponseEntity<Long>(articleService.updateArticle(articleDTO,articleId),HttpStatus.OK);
     }
 
-    @DeleteMapping("/{article_id}/delete")
+    @DeleteMapping("/articles/{article_id}")
     public ResponseEntity<String> deleteArticle(@PathVariable Long article_id){
         articleService.deleteArticle(article_id);
-        return new ResponseEntity<String>("Article deleted.",HttpStatus.OK);
+        return new ResponseEntity<String>("Article deleted!",HttpStatus.OK);
     }
 
-    @GetMapping("/get-all")
+    @GetMapping("/articles")
     public List<ArticleDTO> getAllArticles(){
         return articleService.getAll();
     }
 
-    @GetMapping("/search-by-category/{category}")
-    public List<ArticleDTO> searchArticleByCategory(@PathVariable String category){
-        return articleService.searchByCategory(category);
-    }
-
-    @GetMapping("/search-by-title/{title}")
-    public List<ArticleDTO> searchArticleByTitle(@PathVariable String title){
-        return articleService.searchByTitle(title);
+    @GetMapping("/articles/{articleId}")
+    public ResponseEntity<ArticleDTO> getArticleById(@PathVariable Long articleId) throws Exception {
+        return new ResponseEntity<ArticleDTO>(articleService.findByID(articleId),HttpStatus.OK);
     }
 
     @PostMapping("/{articleId}/like")
     public String likeArticle(@PathVariable Long articleId){
         return likesService.likeArticle(articleId);
     }
+
+
+    @GetMapping("/articles/search")
+    public ArticleDTO searchArticleByTitleAndCategory(@RequestParam String category,@RequestParam(required = false) String title){
+        return articleService.searchByCategoryAndTitle(category,title);
+    }
+
+
 }

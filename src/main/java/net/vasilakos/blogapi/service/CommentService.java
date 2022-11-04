@@ -5,6 +5,7 @@ import net.vasilakos.blogapi.dto.CommentDTO;
 import net.vasilakos.blogapi.model.Article;
 import net.vasilakos.blogapi.model.Comment;
 import net.vasilakos.blogapi.model.User;
+import net.vasilakos.blogapi.repository.ArticleRepository;
 import net.vasilakos.blogapi.repository.CommentRepository;
 import net.vasilakos.blogapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,12 @@ public class CommentService {
     private UserRepository userRepository;
 
     @Autowired
-    private ArticleService articleService;
+    private ArticleRepository articleRepository;
 
     public Comment addComment(String body,Long articleId){
         Comment comment = new Comment();
 
-        Article article = articleService.findByID(articleId).get();
+        Article article = articleRepository.findById(articleId).get();
 
         UserDetails userDetailService = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetailService.getUsername();

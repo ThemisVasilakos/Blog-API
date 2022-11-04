@@ -16,8 +16,8 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @PostMapping("/{articleId}/comment")
-    public ResponseEntity<?> makeComment(@RequestBody String commentBody, @PathVariable Long articleId){
+    @PostMapping("/{articleId}/comments")
+    public ResponseEntity<?> makeComment(@RequestBody String commentBody, @PathVariable Long articleId) throws Exception {
         return ResponseEntity.ok(commentService.addComment(commentBody,articleId));
     }
 
